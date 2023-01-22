@@ -2,64 +2,65 @@
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	is_bootstrap = true
-	vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path }
-	vim.cmd [[packadd packer.nvim]]
+  is_bootstrap = true
+  vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path }
+  vim.cmd [[packadd packer.nvim]]
 end
 
 require('packer').startup(function(use)
-	-- Package manager
-	use 'wbthomason/packer.nvim'
+  -- Package manager
+  use 'wbthomason/packer.nvim'
 
-	use {
-		'VonHeikemen/lsp-zero.nvim',
-		requires = {
-			-- LSP Support
-			{'neovim/nvim-lspconfig'},             -- Required
-			{'williamboman/mason.nvim'},           -- Optional
-			{'williamboman/mason-lspconfig.nvim'}, -- Optional
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    requires = {
+      -- LSP Support
+      { 'neovim/nvim-lspconfig' }, -- Required
+      { 'williamboman/mason.nvim' }, -- Optional
+      { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
-			-- Autocompletion
-			{'hrsh7th/nvim-cmp'},         -- Required
-			{'hrsh7th/cmp-nvim-lsp'},     -- Required
-			{'hrsh7th/cmp-buffer'},       -- Optional
-			{'hrsh7th/cmp-path'},         -- Optional
-			{'saadparwaiz1/cmp_luasnip'}, -- Optional
-			{'hrsh7th/cmp-nvim-lua'},     -- Optional
+      -- Autocompletion
+      { 'hrsh7th/nvim-cmp' }, -- Required
+      { 'hrsh7th/cmp-nvim-lsp' }, -- Required
+      { 'hrsh7th/cmp-buffer' }, -- Optional
+      { 'hrsh7th/cmp-path' }, -- Optional
+      { 'saadparwaiz1/cmp_luasnip' }, -- Optional
+      { 'hrsh7th/cmp-nvim-lua' }, -- Optional
 
-			-- Snippets
-			{'L3MON4D3/LuaSnip'},             -- Required
-			{'rafamadriz/friendly-snippets'}, -- Optional
-		}
-	}
+      -- Snippets
+      { 'L3MON4D3/LuaSnip' }, -- Required
+      { 'rafamadriz/friendly-snippets' }, -- Optional
+    }
+  }
 
-	use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
+  use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
 
-	use 'theprimeagen/vim-be-good'
+  use 'theprimeagen/vim-be-good'
+  use 'theprimeagen/harpoon'
 
-	-- Git related plugins
-	use 'tpope/vim-fugitive'
-	use 'tpope/vim-rhubarb'
-	use 'lewis6991/gitsigns.nvim'
+  -- Git related plugins
+  use 'tpope/vim-fugitive'
+  use 'tpope/vim-rhubarb'
+  use 'lewis6991/gitsigns.nvim'
 
-	use 'navarasu/onedark.nvim' -- Theme inspired by Atom
-	use 'nvim-lualine/lualine.nvim' -- Fancier statusline
-	use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
-	use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
-	use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
+  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
+  use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
+  use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
+  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 
-	-- Fuzzy Finder (files, lsp, etc)
-	use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+  -- Fuzzy Finder (files, lsp, etc)
+  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
-	-- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
-	local has_plugins, plugins = pcall(require, 'custom.plugins')
-	if has_plugins then
-		plugins(use)
-	end
+  -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
+  local has_plugins, plugins = pcall(require, 'custom.plugins')
+  if has_plugins then
+    plugins(use)
+  end
 
-	if is_bootstrap then
-		require('packer').sync()
-	end
+  if is_bootstrap then
+    require('packer').sync()
+  end
 end)
 
 -- When we are bootstrapping a configuration, it doesn't
@@ -67,20 +68,20 @@ end)
 --
 -- You'll need to restart nvim, and then it will work.
 if is_bootstrap then
-	print '=================================='
-	print '    Plugins are being installed'
-	print '    Wait until Packer completes,'
-	print '       then restart nvim'
-	print '=================================='
-	return
+  print '=================================='
+  print '    Plugins are being installed'
+  print '    Wait until Packer completes,'
+  print '       then restart nvim'
+  print '=================================='
+  return
 end
 
 -- Automatically source and re-compile packer whenever you save this init.lua
 local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', {
-	command = 'source <afile> | silent! LspStop | silent! LspStart | PackerCompile',
-	group = packer_group,
-	pattern = vim.fn.expand '$MYVIMRC',
+  command = 'source <afile> | silent! LspStop | silent! LspStart | PackerCompile',
+  group = packer_group,
+  pattern = vim.fn.expand '$MYVIMRC',
 })
 
 -- [[ Setting options ]]
@@ -162,22 +163,22 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = '*',
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
 })
 
 -- Set lualine as statusline
 -- See `:help lualine.txt`
 require('lualine').setup {
-	options = {
-		icons_enabled = false,
-		theme = 'onedark',
-		component_separators = '|',
-		section_separators = '',
-	},
+  options = {
+    icons_enabled = false,
+    theme = 'onedark',
+    component_separators = '|',
+    section_separators = '',
+  },
 }
 
 -- Enable Comment.nvim
@@ -186,33 +187,41 @@ require('Comment').setup()
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
 require('indent_blankline').setup {
-	char = '┊',
-	show_trailing_blankline_indent = false,
+  char = '┊',
+  show_trailing_blankline_indent = false,
 }
 
 -- Gitsigns
 -- See `:help gitsigns.txt`
 require('gitsigns').setup {
-	signs = {
-		add = { text = '+' },
-		change = { text = '~' },
-		delete = { text = '_' },
-		topdelete = { text = '‾' },
-		changedelete = { text = '~' },
-	},
+  signs = {
+    add = { text = '+' },
+    change = { text = '~' },
+    delete = { text = '_' },
+    topdelete = { text = '‾' },
+    changedelete = { text = '~' },
+  },
 }
+
+-- [[ Configure Harpoon]]
+require('harpoon').setup({})
+local mark = require("harpoon.mark")
+local ui = require("harpoon.ui")
+
+vim.keymap.set("n", "<leader>a", mark.add_file)
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
-	defaults = {
-		mappings = {
-			i = {
-				['<C-u>'] = false,
-				['<C-d>'] = false,
-			},
-		},
-	},
+  defaults = {
+    mappings = {
+      i = {
+        ['<C-u>'] = false,
+        ['<C-d>'] = false,
+      },
+    },
+  },
 }
 
 -- See `:help telescope.builtin`
@@ -221,20 +230,18 @@ local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>pf', telescope_builtin.find_files, {})
 vim.keymap.set('n', '<C-p>', telescope_builtin.git_files, {})
 vim.keymap.set('n', '<leader>ps', telescope_builtin.live_grep, {})
---function()
---	builtin.grep_string({ search = vim.fn.input("Grep > ") });
---end)
+-- vim.keymap.set('n', '<leader>ps', function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end, {})
 
 -- TJ DeVries
--- vim.keymap.set('n', '<leader>?', telescope_builtin.oldfiles, { desc = '[?] Find recently opened files' })
+vim.keymap.set('n', '<leader>?', telescope_builtin.oldfiles, { desc = '[?] Find recently opened files' })
 -- vim.keymap.set('n', '<leader><space>', telescope_builtin.buffers, { desc = '[ ] Find existing buffers' })
--- vim.keymap.set('n', '<leader>/', function()
--- 	-- You can pass additional configuration to telescope to change theme, layout, etc.
--- 	telescope_builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
--- 		winblend = 10,
--- 		previewer = false,
--- 	})
--- end, { desc = '[/] Fuzzily search in current buffer]' })
+vim.keymap.set('n', '<leader>/', function()
+	-- You can pass additional configuration to telescope to change theme, layout, etc.
+	telescope_builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+		winblend = 10,
+		previewer = false,
+	})
+end, { desc = '[/] Fuzzily search in current buffer]' })
 
 -- vim.keymap.set('n', '<leader>sf', telescope_builtin.find_files, { desc = '[S]earch [F]iles' })
 -- vim.keymap.set('n', '<leader>sh', telescope_builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -245,26 +252,26 @@ vim.keymap.set('n', '<leader>ps', telescope_builtin.live_grep, {})
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
-	-- Add languages to be installed here that you want installed for treesitter
-	ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'ocaml' },
+  -- Add languages to be installed here that you want installed for treesitter
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'ocaml' },
 
-	-- Install parsers synchronously (only applied to `ensure_installed`)
-	sync_install = false,
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
 
-	-- Automatically install missing parsers when entering buffer
-	-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-	auto_install = true,
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
 
-	highlight = {
-		-- `false` will disable the whole extension
-		enable = true,
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
 
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
-	},
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
 }
 
 -- [[ Configure LSP ]]
@@ -273,33 +280,33 @@ local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
 lsp.ensure_installed({
-	'sumneko_lua',
+  'sumneko_lua',
 })
 
 local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-	['<C-y>'] = cmp.mapping.confirm({select = true}),
-	["<C-Space>"] = cmp.mapping.complete(),
+  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+  ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+  ["<C-Space>"] = cmp.mapping.complete(),
 })
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format) -- format current file
 
 lsp.on_attach(function(_, bufnr)
-	local opts = {buffer = bufnr, remap = false}
+  local opts = { buffer = bufnr, remap = false }
 
-	vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-	vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-	vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-	vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-	vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-	vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-	vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_actions() end, opts)
-	vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-	vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-	vim.keymap.set("n", "<C-h>", function() vim.lsp.buf_signature_help() end, opts)
+  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+  vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+  vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+  vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_actions() end, opts)
+  vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+  vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set("n", "<C-h>", function() vim.lsp.buf_signature_help() end, opts)
 end)
 
 lsp.setup()
