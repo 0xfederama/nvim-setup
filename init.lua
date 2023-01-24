@@ -49,6 +49,14 @@ require('packer').startup(function(use)
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 
+  use 'mrjones2014/smart-splits.nvim' -- Smart splits in nvim
+  use 'stevearc/dressing.nvim' -- Dressing UI for legendary
+  use({
+    'mrjones2014/legendary.nvim',
+    -- sqlite is only needed if you want to use frecency sorting
+    requires = 'kkharji/sqlite.lua'
+  })
+
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
@@ -86,6 +94,8 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
+vim.g.netrw_liststyle = 3 -- Set netrw in tree view
+vim.g.netrw_altv = true -- Open new pane in netrw on the right
 
 -- ThePrimeagen settings
 vim.opt.nu = true
@@ -207,9 +217,37 @@ require('gitsigns').setup {
 require('harpoon').setup({})
 local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
-
 vim.keymap.set("n", "<leader>a", mark.add_file)
 vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+
+-- [[ Configure smart-splits ]]
+-- https://github.com/mrjones2014/smart-splits.nvim
+require('smart-splits').setup({
+  -- Ignored filetypes (only while resizing)
+  ignored_filetypes = {
+    'nofile',
+    'quickfix',
+    'prompt',
+  },
+})
+-- resizing splits
+vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left)
+vim.keymap.set('n', '<A-j>', require('smart-splits').resize_down)
+vim.keymap.set('n', '<A-k>', require('smart-splits').resize_up)
+vim.keymap.set('n', '<A-l>', require('smart-splits').resize_right)
+-- moving between splits
+vim.keymap.set('n', '<C-h>', require('smart-splits').move_cursor_left)
+vim.keymap.set('n', '<C-j>', require('smart-splits').move_cursor_down)
+vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up)
+vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right)
+
+-- [[ Configure legendary ]]
+-- :Legendary
+require('legendary').setup({})
+vim.keymap.set('n', '<C-p>', ":Legendary<CR>")
+
+-- [[ Configure nvim-tree ]]
+-- require('nvim-tree').setup()
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -228,7 +266,7 @@ require('telescope').setup {
 -- ThePrimeagen
 local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>pf', telescope_builtin.find_files, {})
-vim.keymap.set('n', '<C-p>', telescope_builtin.git_files, {})
+vim.keymap.set('n', '<leader>pg', telescope_builtin.git_files, {})
 vim.keymap.set('n', '<leader>ps', telescope_builtin.live_grep, {})
 -- vim.keymap.set('n', '<leader>ps', function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end, {})
 
@@ -236,11 +274,11 @@ vim.keymap.set('n', '<leader>ps', telescope_builtin.live_grep, {})
 vim.keymap.set('n', '<leader>?', telescope_builtin.oldfiles, { desc = '[?] Find recently opened files' })
 -- vim.keymap.set('n', '<leader><space>', telescope_builtin.buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
-	-- You can pass additional configuration to telescope to change theme, layout, etc.
-	telescope_builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-		winblend = 10,
-		previewer = false,
-	})
+  -- You can pass additional configuration to telescope to change theme, layout, etc.
+  telescope_builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false,
+  })
 end, { desc = '[/] Fuzzily search in current buffer]' })
 
 -- vim.keymap.set('n', '<leader>sf', telescope_builtin.find_files, { desc = '[S]earch [F]iles' })
@@ -299,14 +337,14 @@ lsp.on_attach(function(_, bufnr)
 
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-  vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-  vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-  vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_actions() end, opts)
-  vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-  vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-  vim.keymap.set("n", "<C-h>", function() vim.lsp.buf_signature_help() end, opts)
+  -- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+  -- vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+  -- vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+  -- vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+  -- vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_actions() end, opts)
+  -- vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+  -- vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+  -- vim.keymap.set("n", "<C-h>", function() vim.lsp.buf_signature_help() end, opts)
 end)
 
 lsp.setup()
