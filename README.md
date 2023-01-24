@@ -6,6 +6,6 @@ This is my nvim setup, made with the help of these resources:
 
 I keep a Notion page with all the plugins, commands, and remaps [here](https://federama.notion.site/nvim-36f9903eef544b73bfbb903184745e24).
 
-[vim-tutor](vim-tutor.txt) (got from [here](https://gist.githubusercontent.com/hashrocketeer/852a4f878acd42abbf98f18278329bdc/raw/9e7f22d0bec184ea0bc54d1c5dd1d8863b3fc900/vimtutor.txt)) is a file that I used, together with [vim-be-good](https://github.com/ThePrimeagen/vim-be-good) to learn vim motions and basic commands.
+[vim-tutor](vim-tutor.txt) (got from [here](https://gist.githubusercontent.com/hashrocketeer/852a4f878acd42abbf98f18278329bdc/raw/9e7f22d0bec184ea0bc54d1c5dd1d8863b3fc900/vimtutor.txt)) is a file that I used, together with [vim-be-good](https://github.com/ThePrimeagen/vim-be-good), to learn vim motions and basic commands.
 
 You can find more about my personal process of learning vim [here](https://fede.bearblog.dev/learning-vim-and-configuring-nvim/) 🌱
