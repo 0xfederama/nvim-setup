@@ -47,7 +47,6 @@ require('packer').startup(function(use)
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
-  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 
   use 'mrjones2014/smart-splits.nvim' -- Smart splits in nvim
   use 'stevearc/dressing.nvim' -- Dressing UI for legendary
@@ -337,14 +336,14 @@ lsp.on_attach(function(_, bufnr)
 
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-  -- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-  -- vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-  -- vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-  -- vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-  -- vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_actions() end, opts)
-  -- vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-  -- vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-  -- vim.keymap.set("n", "<C-h>", function() vim.lsp.buf_signature_help() end, opts)
+  vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+  vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+  vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_actions() end, opts)
+  vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+  vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set("n", "<leader>help", function() vim.lsp.buf_signature_help() end, opts)
 end)
 
 lsp.setup()
