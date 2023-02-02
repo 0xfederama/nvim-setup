@@ -10,10 +10,10 @@ I keep a Notion page with all the plugins, commands, and remaps [here](https://f
 
 You can find more about my personal process of learning vim [here](https://fede.bearblog.dev/learning-vim-and-configuring-nvim/) 🌱
 
-### Requirements
-The only requirement is [ripgrep](https://github.com/BurntSushi/ripgrep), used in telescope, and a [nerd font](https://github.com/ryanoasis/nerd-fonts).
+## Requirements
+The only requirements are [ripgrep](https://github.com/BurntSushi/ripgrep), used in telescope, and a [nerd font](https://github.com/ryanoasis/nerd-fonts).
 
-### Installation
+## Installation
 To install the configuration you just need to clone this repo in the config directory of nvim.
 ```
 git clone https://github.com/0xfederama/nvim-setup.git ~/.config/nvim
