@@ -12,28 +12,41 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use {
-    'VonHeikemen/lsp-zero.nvim',
-    requires = {
-      -- LSP Support
-      { 'neovim/nvim-lspconfig' }, -- Required
-      { 'williamboman/mason.nvim' }, -- Optional
-      { 'williamboman/mason-lspconfig.nvim' }, -- Optional
+      'VonHeikemen/lsp-zero.nvim',
+      requires = {
+          -- LSP Support
+          { 'neovim/nvim-lspconfig' }, -- Required
+          { 'williamboman/mason.nvim' }, -- Optional
+          { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
-      -- Autocompletion
-      { 'hrsh7th/nvim-cmp' }, -- Required
-      { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-      { 'hrsh7th/cmp-buffer' }, -- Optional
-      { 'hrsh7th/cmp-path' }, -- Optional
-      { 'saadparwaiz1/cmp_luasnip' }, -- Optional
-      { 'hrsh7th/cmp-nvim-lua' }, -- Optional
+          -- Autocompletion
+          { 'hrsh7th/nvim-cmp' }, -- Required
+          { 'hrsh7th/cmp-nvim-lsp' }, -- Required
+          { 'hrsh7th/cmp-buffer' }, -- Optional
+          { 'hrsh7th/cmp-path' }, -- Optional
+          { 'saadparwaiz1/cmp_luasnip' }, -- Optional
+          { 'hrsh7th/cmp-nvim-lua' }, -- Optional
 
-      -- Snippets
-      { 'L3MON4D3/LuaSnip' }, -- Required
-      { 'rafamadriz/friendly-snippets' }, -- Optional
-    }
+          -- Snippets
+          { 'L3MON4D3/LuaSnip' }, -- Required
+          { 'rafamadriz/friendly-snippets' }, -- Optional
+      }
   }
 
   use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
+
+  use {
+      "folke/which-key.nvim",
+      config = function()
+        vim.o.timeout = true
+        vim.o.timeoutlen = 300
+        require("which-key").setup {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        }
+      end
+  }
 
   use 'theprimeagen/vim-be-good'
   use 'theprimeagen/harpoon'
@@ -48,12 +61,11 @@ require('packer').startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
 
-  use 'mrjones2014/smart-splits.nvim' -- Smart splits in nvim
   use 'stevearc/dressing.nvim' -- Dressing UI for legendary
   use({
-    'mrjones2014/legendary.nvim',
-    -- sqlite is only needed if you want to use frecency sorting
-    requires = 'kkharji/sqlite.lua'
+      'mrjones2014/legendary.nvim',
+      -- sqlite is only needed if you want to use frecency sorting
+      requires = 'kkharji/sqlite.lua'
   })
 
   -- Fuzzy Finder (files, lsp, etc)
@@ -86,9 +98,9 @@ end
 -- Automatically source and re-compile packer whenever you save this init.lua
 local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', {
-  command = 'source <afile> | silent! LspStop | silent! LspStart | PackerCompile',
-  group = packer_group,
-  pattern = vim.fn.expand '$MYVIMRC',
+    command = 'source <afile> | silent! LspStop | silent! LspStart | PackerCompile',
+    group = packer_group,
+    pattern = vim.fn.expand '$MYVIMRC',
 })
 
 -- [[ Setting options ]]
@@ -172,22 +184,26 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
+    callback = function()
+      vim.highlight.on_yank()
+    end,
+    group = highlight_group,
+    pattern = '*',
 })
 
 -- Set lualine as statusline
 -- See `:help lualine.txt`
 require('lualine').setup {
-  options = {
-    icons_enabled = false,
-    theme = 'onedark',
-    component_separators = '|',
-    section_separators = '',
-  },
+    options = {
+        icons_enabled = false,
+        theme = 'onedark',
+        component_separators = '|',
+        section_separators = '',
+    },
+}
+
+require('onedark').setup {
+    style = 'darker'
 }
 
 -- Enable Comment.nvim
@@ -196,20 +212,20 @@ require('Comment').setup()
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
 require('indent_blankline').setup {
-  char = '┊',
-  show_trailing_blankline_indent = false,
+    char = '┊',
+    show_trailing_blankline_indent = false,
 }
 
 -- Gitsigns
 -- See `:help gitsigns.txt`
 require('gitsigns').setup {
-  signs = {
-    add = { text = '+' },
-    change = { text = '~' },
-    delete = { text = '_' },
-    topdelete = { text = '‾' },
-    changedelete = { text = '~' },
-  },
+    signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+    },
 }
 
 -- [[ Configure Harpoon]]
@@ -218,27 +234,6 @@ local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
 vim.keymap.set("n", "<leader>a", mark.add_file)
 vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
-
--- [[ Configure smart-splits ]]
--- https://github.com/mrjones2014/smart-splits.nvim
-require('smart-splits').setup({
-  -- Ignored filetypes (only while resizing)
-  ignored_filetypes = {
-    'nofile',
-    'quickfix',
-    'prompt',
-  },
-})
--- resizing splits
-vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left)
-vim.keymap.set('n', '<A-j>', require('smart-splits').resize_down)
-vim.keymap.set('n', '<A-k>', require('smart-splits').resize_up)
-vim.keymap.set('n', '<A-l>', require('smart-splits').resize_right)
--- moving between splits
-vim.keymap.set('n', '<C-h>', require('smart-splits').move_cursor_left)
-vim.keymap.set('n', '<C-j>', require('smart-splits').move_cursor_down)
-vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up)
-vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right)
 
 -- [[ Configure legendary ]]
 -- :Legendary
@@ -251,14 +246,14 @@ vim.keymap.set('n', '<C-p>', ":Legendary<CR>")
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
-  defaults = {
-    mappings = {
-      i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
-      },
+    defaults = {
+        mappings = {
+            i = {
+                ['<C-u>'] = false,
+                ['<C-d>'] = false,
+            },
+        },
     },
-  },
 }
 
 -- See `:help telescope.builtin`
@@ -275,10 +270,10 @@ vim.keymap.set('n', '<leader>?', telescope_builtin.oldfiles, { desc = '[?] Find 
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   telescope_builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
+      winblend = 10,
+      previewer = false,
   })
-end, { desc = '[/] Fuzzily search in current buffer]' })
+end, { desc = '[/] Fuzzily search in current buffer' })
 
 -- vim.keymap.set('n', '<leader>sf', telescope_builtin.find_files, { desc = '[S]earch [F]iles' })
 -- vim.keymap.set('n', '<leader>sh', telescope_builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -289,26 +284,26 @@ end, { desc = '[/] Fuzzily search in current buffer]' })
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
-  -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'ocaml' },
+    -- Add languages to be installed here that you want installed for treesitter
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'ocaml' },
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
 
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
+    -- Automatically install missing parsers when entering buffer
+    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+    auto_install = true,
 
-  highlight = {
-    -- `false` will disable the whole extension
-    enable = true,
+    highlight = {
+        -- `false` will disable the whole extension
+        enable = true,
 
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
+        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+        -- Using this option may slow down your editor, and you may see some duplicate highlights.
+        -- Instead of true it can also be a list of languages
+        additional_vim_regex_highlighting = false,
+    },
 }
 
 -- [[ Configure LSP ]]
@@ -317,17 +312,17 @@ local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
 lsp.ensure_installed({
-  'sumneko_lua',
+    --  'sumneko_lua',
 })
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
-  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-  ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  ["<C-Space>"] = cmp.mapping.complete(),
-})
+        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ["<C-Space>"] = cmp.mapping.complete(),
+    })
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format) -- format current file
 
