@@ -312,7 +312,7 @@ local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
 lsp.ensure_installed({
-    --  'sumneko_lua',
+    'lua_languade_server'
 })
 
 local cmp = require('cmp')
