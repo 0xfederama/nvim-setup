@@ -312,7 +312,7 @@ local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
 lsp.ensure_installed({
-    'lua_languade_server'
+    'lua_ls'
 })
 
 local cmp = require('cmp')
