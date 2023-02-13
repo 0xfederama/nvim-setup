@@ -240,9 +240,6 @@ vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
 require('legendary').setup({})
 vim.keymap.set('n', '<C-p>', ":Legendary<CR>")
 
--- [[ Configure nvim-tree ]]
--- require('nvim-tree').setup()
-
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
