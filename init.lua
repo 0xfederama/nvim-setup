@@ -35,7 +35,7 @@ require('packer').startup(function(use)
 
   use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
 
-  use {
+  use { -- Open a prompt for <leader> commands
       "folke/which-key.nvim",
       config = function()
         vim.o.timeout = true
@@ -60,6 +60,7 @@ require('packer').startup(function(use)
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
+  use 'm4xshen/autoclose.nvim' -- auto close brackets
 
   use 'stevearc/dressing.nvim' -- Dressing UI for legendary
   use({
@@ -110,7 +111,7 @@ vim.g.netrw_altv = true -- Open new pane in netrw on the right
 
 -- ThePrimeagen settings
 vim.opt.nu = true
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -209,6 +210,9 @@ require('onedark').setup {
 -- Enable Comment.nvim
 require('Comment').setup()
 
+-- Setup autoclose.nvim
+require('autoclose').setup()
+
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
 require('indent_blankline').setup {
@@ -232,13 +236,13 @@ require('gitsigns').setup {
 require('harpoon').setup({})
 local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
-vim.keymap.set("n", "<leader>a", mark.add_file)
-vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+vim.keymap.set("n", "<leader>a", mark.add_file, { desc = '[A]dd to harpoon' })
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu, { desc = 'Open harpoon switcher' })
 
 -- [[ Configure legendary ]]
 -- :Legendary
 require('legendary').setup({})
-vim.keymap.set('n', '<C-p>', ":Legendary<CR>")
+vim.keymap.set('n', '<C-p>', ":Legendary<CR>", { desc = "Legendary command [P]alette" })
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -256,9 +260,9 @@ require('telescope').setup {
 -- See `:help telescope.builtin`
 -- ThePrimeagen
 local telescope_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>pf', telescope_builtin.find_files, {})
-vim.keymap.set('n', '<leader>pg', telescope_builtin.git_files, {})
-vim.keymap.set('n', '<leader>ps', telescope_builtin.live_grep, {})
+vim.keymap.set('n', '<leader>pf', telescope_builtin.find_files, { desc = "[P]roject [F]ile search" })
+vim.keymap.set('n', '<leader>pg', telescope_builtin.git_files, { desc = "[P]roject [G]it file search" })
+vim.keymap.set('n', '<leader>ps', telescope_builtin.live_grep, { desc = "[P]roject [S]earch with grep" })
 -- vim.keymap.set('n', '<leader>ps', function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end, {})
 
 -- TJ DeVries
@@ -321,7 +325,7 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
         ["<C-Space>"] = cmp.mapping.complete(),
     })
 
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format) -- format current file
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = '[F]ormat current buffer' }) -- format current file
 
 lsp.on_attach(function(_, bufnr)
   local opts = { buffer = bufnr, remap = false }
@@ -335,7 +339,7 @@ lsp.on_attach(function(_, bufnr)
   vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_actions() end, opts)
   vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
   vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-  vim.keymap.set("n", "<leader>help", function() vim.lsp.buf_signature_help() end, opts)
+  vim.keymap.set("n", "<leader>help", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
 lsp.setup()
