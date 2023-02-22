@@ -111,7 +111,7 @@ vim.g.netrw_altv = true -- Open new pane in netrw on the right
 
 -- ThePrimeagen settings
 vim.opt.nu = true
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
