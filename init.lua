@@ -153,7 +153,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Set completeopt to have a better completion experience
-vim.opt.completeopt = 'menuone,noselect'
+vim.opt.completeopt = 'menu,menuone,noselect,noinsert'
 
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
@@ -311,6 +311,13 @@ require('nvim-treesitter.configs').setup {
 local lsp = require('lsp-zero')
 
 lsp.preset('recommended')
+
+lsp.setup_nvim_cmp({
+    preselect = 'none',
+    completion = {
+        completeopt = 'menu,menuone,noinsert,noselect'
+    },
+})
 
 lsp.ensure_installed({
   'lua_ls'
