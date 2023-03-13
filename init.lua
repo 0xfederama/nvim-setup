@@ -179,6 +179,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv") -- searching for terms keeps cursor/highlight in the middle
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Open [G]it" }); -- open fugitive
+vim.keymap.set("n", "<leader>vs", "<C-w>v<C-w>l", { desc = "[S]plit [V]ertical pane"}); -- open a vertical on the right and switch to it
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
